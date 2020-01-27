@@ -51,7 +51,7 @@ void Hand::show(int b)
     system("clear");
     cout<<endl<<"PLAYER: "<<playername<<"  $"<<credit<<"        BANK: $"<<b<<endl;
     cout<<"________________________________";
-    cout<<endl<<"|| "<<i.name<<" || "<<ii.name<<" || "<<iii.name<<" || "<<iv.name<<" || "<<v.name<<" || "<<endl;
+    cout<<endl<<"|| "<<i.name<<" || "<<ii.name<<" || "<<iii.name<<" || "<<iv.name<<" || "<<v.name<<" || "<<endl<<kind<<endl;
     cout<<"--------------------------------"<<endl;
 }
 
@@ -90,7 +90,7 @@ bool Hand::checkSuit()
 
 //--------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
-void Hand::checkKind(string &kind)
+void Hand::checkKind()
 {
     int check[]= {i.value, ii.value, iii.value, iv.value, v.value};
     int samecounter = 1;
@@ -131,6 +131,20 @@ bool Hand::checkRoyal()
 
     if((check[0]==0)&&(check[1]==9)&&(check[2]==10)&&(check[3]==11)&&(check[4]==12)) return true;
     else return false;
+}
+
+//--------------------------------------------------------------------------------------------------------------------------------
+
+void Hand::determineHandType(bool s, bool r, bool f)
+{
+  if(kind=="High card")
+  {
+    if ((f==true)&&(s==true)) kind="Straight Flush";
+    if ((f==true)&&(s==false)) kind="Straight";
+    if ((r==true)&&(s==true)) kind="Royal flush";
+    if ((r==true)&&(s==false)) kind="Straight";
+    if ((r==false)&&(f==false)&&(s==true)) kind="Flush";
+  }
 }
 
 //---------------------------------------------------------------------------------------------------------------------------------
@@ -243,12 +257,3 @@ void Hand::placeBet(int &b)
     b += bet;
 
 }
-
-
-
-
-
-
-
-
-

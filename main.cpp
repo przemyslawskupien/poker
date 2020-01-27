@@ -76,7 +76,6 @@ int main()
     Hand player1;
     player1.create(50, "Holden", false);
 
-    string power;
     bool suit, flush, royal;
     int bank = 0;
 
@@ -98,32 +97,25 @@ int main()
         }
 
         player1.draw(newdeck, 52);
-        player1.show(bank);
-        player1.checkKind(power);
+        player1.checkKind();
         flush = player1.checkFlush();
         royal = player1.checkRoyal();
         suit = player1.checkSuit();
-        if(power=="High card") determineHandType(power, suit, royal, flush);
-
-
-        cout<<power<<endl;
+        player1.determineHandType(suit, royal, flush);
+        player1.show(bank);
 
         player1.placeBet(bank);
-
         player1.show(bank);
-
-        cout<<power<<endl;
 
         player1.change(newdeck, 52);
-
-        player1.show(bank);
-
-        player1.checkKind(power);
+        player1.checkKind();
         flush = player1.checkFlush();
         royal = player1.checkRoyal();
         suit = player1.checkSuit();
-        if(power==" ") determineHandType(power, suit, royal, flush);
-        cout<<power<<endl<<"________________________________________________________________________________________________________________________________________________________________"<<endl;
+        player1.determineHandType(suit, royal, flush);
+        player1.show(bank);
+
+        cout<<endl<<"________________________________________________________________________________________________________________________________________________________________"<<endl;
         getchar();
         getchar();
     }
