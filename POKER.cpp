@@ -80,20 +80,14 @@ void Hand::create(int cr, string name, bool cards)
     credit = cr;
 }
 
-//-------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-
-bool Hand::checkSuit()
-{
-    if((i.suit==ii.suit)&&(ii.suit==iii.suit)&&(iii.suit==iv.suit)&&(iv.suit==v.suit)) return true;
-    else return false;
-}
 
 //--------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
-void Hand::checkKind()
+void Hand::determineHandType()
 {
     int check[]= {i.value, ii.value, iii.value, iv.value, v.value};
     int samecounter = 1;
+    bool f, s, r;
     quickSort(check, 0, 4);
 
     for (int i=0; i<4; i++)
@@ -109,42 +103,45 @@ void Hand::checkKind()
     if((samecounter==3)&&(check[1]==check[2])&&(check[2]==check[3])) kind="Three of a kind";
     if((samecounter==3)&&(check[2]==check[3])&&(check[3]==check[4])) kind="Three of a kind";
     if(samecounter==1) kind="High card";
+
+    if((check[0]==check[1]-1)&&(check[1]==check[2]-1)&&(check[2]==check[3]-1)&&(check[3]==check[4]-1)) f = true;
+    else f = false;
+
+    if((check[0]==0)&&(check[1]==9)&&(check[2]==10)&&(check[3]==11)&&(check[4]==12)) r = true;
+    else r = false;
+
+    if((i.suit==ii.suit)&&(ii.suit==iii.suit)&&(iii.suit==iv.suit)&&(iv.suit==v.suit)) s = true;
+    else s = false;
+
+    if(kind=="High card")
+    {
+      if ((f==true)&&(s==true)) kind="Straight Flush";
+      if ((f==true)&&(s==false)) kind="Straight";
+      if ((r==true)&&(s==true)) kind="Royal flush";
+      if ((r==true)&&(s==false)) kind="Straight";
+      if ((r==false)&&(f==false)&&(s==true)) kind="Flush";
+    }
+
 }
 
-//-------------------------------------------------------------------------------------------------------------------------
-
-bool Hand::checkFlush()
-{
-    int check[]= {i.value, ii.value, iii.value, iv.value, v.value};
-    quickSort(check, 0, 4);
-
-    if((check[0]==check[1]-1)&&(check[1]==check[2]-1)&&(check[2]==check[3]-1)&&(check[3]==check[4]-1)) return true;
-    else return false;
-}
-
-//----------------------------------------------------------------------------------------------------------------------------
-
-bool Hand::checkRoyal()
-{
-    int check[]= {i.value, ii.value, iii.value, iv.value, v.value};
-    quickSort(check, 0, 4);
-
-    if((check[0]==0)&&(check[1]==9)&&(check[2]==10)&&(check[3]==11)&&(check[4]==12)) return true;
-    else return false;
-}
 
 //--------------------------------------------------------------------------------------------------------------------------------
 
-void Hand::determineHandType(bool s, bool r, bool f)
+
+void Hand::showAI(int b)
 {
-  if(kind=="High card")
-  {
-    if ((f==true)&&(s==true)) kind="Straight Flush";
-    if ((f==true)&&(s==false)) kind="Straight";
-    if ((r==true)&&(s==true)) kind="Royal flush";
-    if ((r==true)&&(s==false)) kind="Straight";
-    if ((r==false)&&(f==false)&&(s==true)) kind="Flush";
-  }
+
+    cout<<endl<<"PLAYER: "<<playername<<"  $"<<credit<<"        BANK: $"<<b<<endl;
+}
+
+//---------------------------------------------------------------------------------------------------------------------------------
+void Hand::showAIfin(int b)
+{
+
+    cout<<endl<<"PLAYER: "<<playername<<"  $"<<credit<<"        BANK: $"<<b<<endl;
+    cout<<"________________________________";
+    cout<<endl<<"|| "<<i.name<<" || "<<ii.name<<" || "<<iii.name<<" || "<<iv.name<<" || "<<v.name<<" || "<<endl<<kind<<endl;
+    cout<<"--------------------------------"<<endl;
 }
 
 //---------------------------------------------------------------------------------------------------------------------------------
@@ -255,5 +252,42 @@ void Hand::placeBet(int &b)
     }
     credit -= bet;
     b += bet;
+
+}
+//-----------------------------------------------------------------------------------------------------------------------------------
+void Hand::placeBetAI(int &b)
+{
+    int bet = 1;
+
+    credit -= bet;
+    b += bet;
+
+}
+
+//-----------------------------------------------------------------------------------------------------------------------------------
+
+void Hand::winner(int &b)
+{
+  cout<<endl<<playername<<" is a winner!!!"<<endl;
+  credit += b;
+  b = 0;
+}
+
+//-----------------------------------------------------------------------------------------------------------------------------------
+int Hand::score()
+{
+
+
+    if(kind=="High card") return 0;
+    if (kind=="One pair") return 1;
+    if (kind=="Two pairs") return 2;
+    if (kind=="Three of a kind") return 3;
+    if (kind=="Streight") return 4;
+    if (kind=="Flush") return 5;
+    if (kind=="Full house") return 6;
+    if (kind=="Four of a kind") return 7;
+    if (kind=="Straight flush") return 8;
+    if (kind=="Royal flush") return 9;
+
 
 }

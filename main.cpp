@@ -2,7 +2,7 @@
 #include "POKER.h"
 #include <stdio.h>
 #include <cstdlib>
-#include "function.h"
+
 
 using namespace std;
 
@@ -73,10 +73,10 @@ int main()
 
 //----------------------------------------------------------------------------------------------------------------------------------
 
-    Hand player1;
+    Hand player1, player2;
     player1.create(50, "Holden", false);
+    player2.create(50, "Miller", false);
 
-    bool suit, flush, royal;
     int bank = 0;
 
     while(true)
@@ -90,30 +90,33 @@ int main()
             if(newdeck[i].suit!=0) resetcounter++;
         }
 
-        if(resetcounter<9)
+        if(resetcounter<18)
         {
             for (int i=0; i<52; i++) newdeck[i]=reset[i];
 
         }
 
         player1.draw(newdeck, 52);
-        player1.checkKind();
-        flush = player1.checkFlush();
-        royal = player1.checkRoyal();
-        suit = player1.checkSuit();
-        player1.determineHandType(suit, royal, flush);
+        player2.draw(newdeck, 52);
+
+        player1.determineHandType();
+        player2.determineHandType(); //?
         player1.show(bank);
+        player2.showAI(bank);
+
 
         player1.placeBet(bank);
+        player2.placeBetAI(bank);
         player1.show(bank);
+        player2.showAI(bank);
 
         player1.change(newdeck, 52);
-        player1.checkKind();
-        flush = player1.checkFlush();
-        royal = player1.checkRoyal();
-        suit = player1.checkSuit();
-        player1.determineHandType(suit, royal, flush);
+        player1.determineHandType();
         player1.show(bank);
+        player2.showAIfin(bank);
+        if (player1.score()>player2.score()) player1.winner(bank);
+        if (player2.score()>player1.score()) player2.winner(bank);
+
 
         cout<<endl<<"________________________________________________________________________________________________________________________________________________________________"<<endl;
         getchar();

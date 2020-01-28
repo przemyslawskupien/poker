@@ -25,7 +25,7 @@ public:
 class Hand
 {
     Card i, ii, iii, iv, v;
-    int credit, power;
+    int credit;
     string playername, kind;
 
 public:
@@ -33,14 +33,16 @@ public:
 
     void show(int);
     void create(int, string, bool);
-    bool checkSuit();
-    void checkKind();
-    bool checkFlush();
-    bool checkRoyal();
     void draw(Card[], int);
     void change(Card[], int);
     void placeBet(int&);
-    void determineHandType(bool, bool, bool);
+    void determineHandType();
+    int score();
+    void winner(int&);
+
+    void showAI(int);
+    void showAIfin(int);
+    void placeBetAI(int&);
 };
 
 //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------
