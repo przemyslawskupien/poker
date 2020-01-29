@@ -13,7 +13,7 @@ int main()
 // Talia
 //----------------------------------------------------------------------------------------------------------------------------
     Card newdeck[52];
-    newdeck[0].insertCard("AS", 0, 1);
+    newdeck[0].insertCard("AS", 13, 1);
     newdeck[1].insertCard("2S", 1, 1);
     newdeck[2].insertCard("3S", 2, 1);
     newdeck[3].insertCard("4S", 3, 1);
@@ -26,7 +26,7 @@ int main()
     newdeck[10].insertCard("JS", 10, 1);
     newdeck[11].insertCard("QS", 11, 1);
     newdeck[12].insertCard("KS", 12, 1);
-    newdeck[13].insertCard("AC", 0, 2);
+    newdeck[13].insertCard("AC", 13, 2);
     newdeck[14].insertCard("2C", 1, 2);
     newdeck[15].insertCard("3C", 2, 2);
     newdeck[16].insertCard("4C", 3, 2);
@@ -39,7 +39,7 @@ int main()
     newdeck[23].insertCard("JC", 10, 2);
     newdeck[24].insertCard("QC", 11, 2);
     newdeck[25].insertCard("KC", 12, 2);
-    newdeck[26].insertCard("AD", 0, 3);
+    newdeck[26].insertCard("AD", 13, 3);
     newdeck[27].insertCard("2D", 1, 3);
     newdeck[28].insertCard("3D", 2, 3);
     newdeck[29].insertCard("4D", 3, 3);
@@ -52,7 +52,7 @@ int main()
     newdeck[36].insertCard("JD", 10, 3);
     newdeck[37].insertCard("QD", 11, 3);
     newdeck[38].insertCard("KD", 12, 3);
-    newdeck[39].insertCard("AH", 0, 4);
+    newdeck[39].insertCard("AH", 13, 4);
     newdeck[40].insertCard("2H", 1, 4);
     newdeck[41].insertCard("3H", 2, 4);
     newdeck[42].insertCard("4H", 3, 4);
@@ -116,6 +116,12 @@ int main()
         player2.showAIfin(bank);
         if (player1.score()>player2.score()) player1.winner(bank);
         if (player2.score()>player1.score()) player2.winner(bank);
+        if (player2.score()==player1.score())
+          {
+            if (player1.tie()>player2.tie()) player1.winner(bank);
+            if (player2.tie()>player1.tie()) player2.winner(bank);
+
+          }
 
 
         cout<<endl<<"________________________________________________________________________________________________________________________________________________________________"<<endl;

@@ -107,7 +107,10 @@ void Hand::determineHandType()
     if((check[0]==check[1]-1)&&(check[1]==check[2]-1)&&(check[2]==check[3]-1)&&(check[3]==check[4]-1)) f = true;
     else f = false;
 
-    if((check[0]==0)&&(check[1]==9)&&(check[2]==10)&&(check[3]==11)&&(check[4]==12)) r = true;
+    if((check[0]==1)&&(check[1]==2)&&(check[2]==3)&&(check[3]==4)&&(check[4]==13)) f = true;
+    else f = false;
+
+    if((check[0]==9)&&(check[1]==10)&&(check[2]==11)&&(check[3]==12)&&(check[4]==13)) r = true;
     else r = false;
 
     if((i.suit==ii.suit)&&(ii.suit==iii.suit)&&(iii.suit==iv.suit)&&(iv.suit==v.suit)) s = true;
@@ -257,8 +260,20 @@ void Hand::placeBet(int &b)
 //-----------------------------------------------------------------------------------------------------------------------------------
 void Hand::placeBetAI(int &b)
 {
-    int bet = 1;
+    int bet;
+    srand(time(NULL));
 
+    if(kind=="High card") bet = rand()%(credit/10);
+    if (kind=="One pair") bet = rand()%(credit/10);
+    if (kind=="Two pairs") bet = rand()%(credit/9);
+    if (kind=="Three of a kind") bet = rand()%(credit/7);
+    if (kind=="Streight") bet = rand()%(credit/6);
+    if (kind=="Flush") bet = rand()%(credit/5);
+    if (kind=="Full house") bet = rand()%(credit/4);
+    if (kind=="Four of a kind") bet = rand()%(credit/3);
+    if (kind=="Straight flush") bet = rand()%(credit/2);
+    if (kind=="Royal flush") bet = rand()%(credit);
+  
     credit -= bet;
     b += bet;
 
@@ -289,5 +304,39 @@ int Hand::score()
     if (kind=="Straight flush") return 8;
     if (kind=="Royal flush") return 9;
 
+
+}
+
+//------------------------------------------------------------------------------------------------------
+
+//have to implement suit for royal flush tie
+int Hand::tie()
+{
+  int check[]= {i.value, ii.value, iii.value, iv.value, v.value};
+  quickSort(check, 0, 4);
+
+  if(kind=="High card") return check[4];
+  if(kind=="One pair")
+    {
+      if(check[0]==check[1]) return check[0];
+      if(check[1]==check[2]) return check[1];
+      if(check[2]==check[3]) return check[2];
+      if(check[3]==check[4]) return check[3];
+    }
+  if(kind=="Two pairs") return check[3];
+  if(kind=="Three of a kind") return check[2];
+  if(kind=="Streight")
+    {
+      if(check[0]==1) return 0;
+      else return check[4];
+    }
+  if(kind=="Flush") return check[4];
+  if(kind=="Full house") return check[2];
+  if(kind=="Four of a kind") return check[1];
+  if(kind=="Streight flush")
+  {
+    if(check[0]==1) return 0;
+    else return check[4];
+  }
 
 }

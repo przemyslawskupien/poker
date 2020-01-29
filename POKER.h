@@ -39,6 +39,7 @@ public:
     void determineHandType();
     int score();
     void winner(int&);
+    int tie();
 
     void showAI(int);
     void showAIfin(int);
